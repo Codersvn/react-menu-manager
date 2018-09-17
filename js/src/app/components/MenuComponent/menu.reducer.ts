@@ -1,14 +1,10 @@
-import { combineReducers } from 'redux';
-import { Editor } from './EditorComponent/editor.reducer';
-import { SET_MENU_ID } from './menu.action';
+import { FETCH_MENU_SUCCESSED } from './EditorComponent/editor.action';
 
-const Element = (state = {}, action) => {
+export const Menu = (state = { items: [] }, action) => {
   switch (action.type) {
-    case SET_MENU_ID:
-      return { ...state, ...{ id: action.data } };
+    case FETCH_MENU_SUCCESSED:
+      return { ...state, ...{ items: [...state.items, ...action.data] } };
     default:
       return state;
   }
 };
-
-export const Menu = combineReducers({ Element, Editor });

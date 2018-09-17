@@ -1,4 +1,4 @@
-import { takeLatest, put, fork } from 'redux-saga/effects';
+import { takeEvery, put, fork } from 'redux-saga/effects';
 import { FETCH_MENU_REQUESTED, FETCH_MENU_SUCCESSED } from './editor.action';
 import { App } from '@nsilly/container';
 import { ApiService } from '../../../api';
@@ -14,7 +14,7 @@ function* fetchMenu(action) {
 }
 
 function* watchFetchMenuRequested() {
-  yield takeLatest(FETCH_MENU_REQUESTED, fetchMenu);
+  yield takeEvery(FETCH_MENU_REQUESTED, fetchMenu);
 }
 
 export default [watchFetchMenuRequested];

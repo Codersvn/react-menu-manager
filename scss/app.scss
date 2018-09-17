@@ -304,25 +304,30 @@
       margin: 0;
     }
   }
-
-  .delete_item,
-  .edit_item {
-    // position: absolute;
-    width: 40px;
-    // top: 0px;
-    text-align: center;
-    cursor: pointer;
-    .icon {
-      margin-top: 15px;
-      margin-left: 15px;
+  .dd-item {
+    position: relative;
+    .delete_item,
+    .edit_item {
+      position: absolute;
+      width: 40px;
+      top: 0px;
+      right: 0px;
+      text-align: center;
+      height: 38px;
+      display: inline-block;
+      cursor: pointer;
+      .icon {
+        margin-top: 15px;
+        margin-left: 15px;
+      }
     }
-  }
-  .delete_item {
-    right: 0px;
-    background: #e74c3c;
-  }
-  .edit_item {
-    right: 40px;
-    background: #3498db;
+    .delete_item {
+      right: 0px;
+      background: #e74c3c;
+    }
+    .edit_item {
+      right: 40px;
+      background: #3498db;
+    }
   }
 }

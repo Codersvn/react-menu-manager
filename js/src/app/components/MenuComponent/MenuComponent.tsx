@@ -9,13 +9,14 @@ class MenuComponent extends React.Component {
     dispatch({ type: FETCH_MENU_REQUESTED, data: id });
   }
   render() {
-    return <EditorComponent />;
+    const { id } = this.props as any;
+    return <EditorComponent id={id} />;
   }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state, props) => {
   return {
-    payload: state.Menu
+    payload: state.Menu.items.find(i => Number(i.id) === Number(props.id))
   };
 };
 

@@ -441,9 +441,6 @@ export default class Nestable {
   constructor(el, params) {
     var lists = $(el),
       retval = $(el);
-
-    console.log(lists, retval);
-
     lists.each(function() {
       var plugin = $(el).data('nestable');
 
