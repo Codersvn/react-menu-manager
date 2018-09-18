@@ -2,27 +2,52 @@ import * as $ from 'jquery';
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { isArray } from 'lodash-es';
+import { forEach, map } from 'lodash-es';
 
 import Nestable from '../../../../libs/Nestable/jquery.nestable';
 import EditItemComponent from './EditItemComponent';
+import { SortedItem } from '../../../models/SortedItem';
+import { SORT_MENU, SAVE_MENU_REQUESTED } from '../../../store/action';
+
 class EditorComponent extends React.Component {
   myRef: any;
   constructor(props) {
     super(props);
     this.myRef = React.createRef();
   }
+
   componentDidUpdate() {
-    new Nestable($(this.myRef.current).find('.dd')[0]);
+    const { payload, dispatch } = this.props as any;
+
+    const nestable = new Nestable();
+    nestable.init($(this.myRef.current).find('.dd')[0]);
+
+    $(this.myRef.current)
+      .find('.dd')
+      .on('change', function() {
+        const nestable = new Nestable();
+        const data = nestable.get(this, 'serialize');
+        let items = [];
+        forEach(payload.menus, menu => {
+          items = [...items, ...menu.flat()];
+        });
+        let sorted_items = data.map(i => new SortedItem(i));
+        sorted_items = map(sorted_items, i => i.transform(items));
+        dispatch({ type: SORT_MENU, data: sorted_items, menu_id: payload.id });
+      });
+  }
+  save() {
+    const { payload, dispatch } = this.props as any;
+    dispatch({ type: SAVE_MENU_REQUESTED, data: payload });
   }
 
   render() {
     const { payload } = this.props as any;
-
     let Items;
     if (payload !== undefined && payload.id !== undefined && isArray(payload.menus)) {
       Items = payload.menus.map((i, k) => (
-        <li key={k} className="dd-item" data-id="${item.id}" data-label="${item.label}" data-link="${item.link}" data-parent="${item.parent_id}">
-          <div className="dd-handle" id="label_item_${item.id}">
+        <li key={k} className="dd-item" data-id={i.id}>
+          <div className="dd-handle">
             <div className="row">
               <div className="col">{i.label}</div>
               <div className="col text-right">
@@ -34,6 +59,7 @@ class EditorComponent extends React.Component {
             <div className="trash icon" />
           </div>
           <EditItemComponent />
+          <div dangerouslySetInnerHTML={{ __html: i.render() }} />
         </li>
       ));
     }
@@ -88,9 +114,9 @@ class EditorComponent extends React.Component {
               </div>
               <div className="row">
                 <div className="col">
-                  <div id="save_menu" className="btn btn-success">
+                  <button className="btn btn-success" onClick={this.save.bind(this)}>
                     Save
-                  </div>
+                  </button>
                 </div>
               </div>
             </div>

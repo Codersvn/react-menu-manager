@@ -132,7 +132,7 @@ Plugin.prototype = {
     var data,
       depth = 0,
       list = this;
-    step = function(level, depth) {
+    var step = function(level, depth) {
       var array = [],
         items = level.children(list.options.itemNodeName);
       items.each(function() {
@@ -438,9 +438,28 @@ Plugin.prototype = {
   }
 };
 export default class Nestable {
-  constructor(el, params) {
+  init(el, params) {
     var lists = $(el),
       retval = $(el);
+    lists.each(function() {
+      var plugin = $(el).data('nestable');
+
+      if (!plugin) {
+        $(el).data('nestable', new Plugin(el, params));
+        $(el).data('nestable-id', new Date().getTime());
+      } else {
+        if (typeof params === 'string' && typeof plugin[params] === 'function') {
+          retval = plugin[params]();
+        }
+      }
+    });
+
+    return retval || lists;
+  }
+  get(el, params) {
+    var lists = $(el),
+      retval = $(el);
+
     lists.each(function() {
       var plugin = $(el).data('nestable');
 

@@ -1,7 +1,7 @@
 import * as React from 'react';
 import EditorComponent from './EditorComponent/EditorComponent';
 import { connect } from 'react-redux';
-import { FETCH_MENU_REQUESTED } from './EditorComponent/editor.action';
+import { FETCH_MENU_REQUESTED } from '../../store/action';
 
 class MenuComponent extends React.Component {
   componentDidMount() {
