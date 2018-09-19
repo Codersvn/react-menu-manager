@@ -89,6 +89,10 @@
     background: #fafafa;
     box-sizing: border-box;
     -moz-box-sizing: border-box;
+    .text-right {
+      text-align: right;
+      padding-right: 90px;
+    }
   }
 
   .dd-handle:hover {
@@ -298,6 +302,10 @@
       box-shadow: 2px 4px 6px 0 rgba(0, 0, 0, 0.1);
       border: 1px solid #ccc;
       background: #ddd;
+      .text-right {
+        text-align: right;
+        padding-right: 90px;
+      }
       @extend %dragable;
     }
     > .dd3-item > .dd3-content {
