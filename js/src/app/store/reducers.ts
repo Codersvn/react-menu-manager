@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux';
-import { FETCH_MENU_SUCCESSED, SORT_MENU, SET_NEW_ITEM_FIELD } from './action';
+import { FETCH_MENU_SUCCESSED, SORT_MENU, SET_NEW_ITEM_FIELD, DELETE_MENU_ITEM } from './action';
 import * as _ from 'lodash/core';
 
 const Application = (state: any = { items: [] }, action) => {
@@ -66,6 +66,8 @@ export const Menu = (state = { items: [] }, action) => {
       }
     case SORT_MENU:
       return { ...state, ...{ items: state.items.map(i => Item(i, action)) } };
+    case DELETE_MENU_ITEM:
+      return { ...state, ...{ items: state.items.map(i => i.deleteItem(action.data)) } };
     default:
       return state;
   }

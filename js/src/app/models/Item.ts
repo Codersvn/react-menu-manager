@@ -14,6 +14,14 @@ export class Item extends Model implements ItemInterface {
     (this as any).bind(options);
   }
 
+  deleteItem(id) {
+    this.menus = _.filter(this.menus, item => {
+      return Number(item.id) !== Number(id);
+    });
+    this.menus = _.map(this.menus, item => item.deleteItem(id));
+    return this;
+  }
+
   flat() {
     const current_item = _.clone(this);
     delete current_item.menus;
@@ -39,12 +47,21 @@ export class Item extends Model implements ItemInterface {
       html += '<ol class="dd-list">';
       _.forEach(this.menus, item => {
         html += `
-                    <li class="dd-item" data-id="${item.id}" data-label="${item.label}" data-link="${item.link}" data-parent="${item.parent_id}">
-                        <div class="dd-handle" id="label_item_${item.id}">${item.label}</div>
-                        <div class="delete_item" data-id="${item.id}"><div class="trash icon"></div></div>
-                        <div class="edit_item" data-label="${item.label}" data-link="${item.link}" data-item-id="${item.id}"><div class="edit icon"></div></div>
-                        ${item.render()}
-                    </li>
+                  <li class="dd-item" data-id="${item.id}" data-label="${item.label}" data-link="${item.link}" data-parent="${item.parent_id}">
+                      <div class="dd-handle">
+                        <div class="row">
+                          <div class="col">${item.label}</div>
+                          <div class="col text-right">
+                            <span>${item.link}</span>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="delete_menu_item_btn sub_item" data-id="${item.id}" data-click="deleteMenuItem">
+                        <div class="trash icon"></div>
+                      </div>
+                      <div class="edit_item" data-label="${item.label}" data-link="${item.link}" data-item-id="${item.id}"><div class="edit icon"></div></div>
+                      ${item.render()}
+                  </li>
                 `;
       });
       html += '</ol>';

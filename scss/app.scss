@@ -306,7 +306,7 @@
   }
   .dd-item {
     position: relative;
-    .delete_item,
+    .delete_menu_item_btn,
     .edit_item {
       position: absolute;
       width: 40px;
@@ -321,7 +321,7 @@
         margin-left: 15px;
       }
     }
-    .delete_item {
+    .delete_menu_item_btn {
       right: 0px;
       background: #e74c3c;
     }

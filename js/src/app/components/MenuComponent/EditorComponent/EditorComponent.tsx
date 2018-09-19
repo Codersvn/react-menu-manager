@@ -8,6 +8,7 @@ import { SortedItem } from '../../../models/SortedItem';
 import { SORT_MENU, SAVE_MENU_REQUESTED } from '../../../store/action';
 import AddItemComponent from './AddItemComponent';
 import * as Parser from 'html-react-parser';
+import DeleteItemComponent from './DeleteItemComponent';
 
 class EditorComponent extends React.Component {
   myRef: any;
@@ -59,9 +60,7 @@ class EditorComponent extends React.Component {
                   </div>
                 </div>
               </div>
-              <div className="delete_item" data-id="${item.id}">
-                <div className="trash icon" />
-              </div>
+              <DeleteItemComponent id={payload.id} menu_item_id={i.id} />
               <EditItemComponent />
               {Parser(i.render())}
             </li>
@@ -77,9 +76,7 @@ class EditorComponent extends React.Component {
                   </div>
                 </div>
               </div>
-              <div className="delete_item" data-id="${item.id}">
-                <div className="trash icon" />
-              </div>
+              <DeleteItemComponent id={payload.id} menu_item_id={i.id} />
               <EditItemComponent />
             </li>
           );
