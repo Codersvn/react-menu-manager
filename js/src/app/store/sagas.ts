@@ -1,7 +1,16 @@
-import { fork, put, takeEvery } from 'redux-saga/effects';
+import { fork, put, takeEvery, takeLatest } from 'redux-saga/effects';
 import { ApiService } from '../api';
 import { App } from '@nsilly/container';
-import { FETCH_MENU_SUCCESSED, API_CALL_ERROR, FETCH_MENU_REQUESTED, SAVE_MENU_REQUESTED, SAVE_MENU_SUCCESSED } from './action';
+import {
+  FETCH_MENU_SUCCESSED,
+  API_CALL_ERROR,
+  FETCH_MENU_REQUESTED,
+  SAVE_MENU_REQUESTED,
+  SAVE_MENU_SUCCESSED,
+  CREATE_MENU_ITEM_REQUESTED,
+  CREATE_MENU_ITEM_SUCCESSED
+} from './action';
+import * as _ from 'lodash/core';
 
 function* fetchMenu(action) {
   try {
@@ -29,7 +38,30 @@ function* watchSaveMenuRequested() {
   yield takeEvery(SAVE_MENU_REQUESTED, saveMenu);
 }
 
-const RootSaga = [watchFetchMenuRequested, watchSaveMenuRequested].map(item => fork(item));
+function* create(action) {
+  try {
+    const result = yield App.make(ApiService).menu.createItem(action.data.menu_id, _.pick(action.data, ['label', 'link']));
+    yield put({ type: CREATE_MENU_ITEM_SUCCESSED, data: result });
+  } catch (e) {
+    yield put({ type: API_CALL_ERROR, error: e });
+  }
+}
+
+function* watchCreateMenuRequested() {
+  yield takeEvery(CREATE_MENU_ITEM_REQUESTED, create);
+}
+
+function* watchCreateMenuSuccessed() {
+  yield takeEvery(CREATE_MENU_ITEM_SUCCESSED, function*(action: any) {
+    document.location.reload();
+    // yield put({
+    //   type: FETCH_MENU_REQUESTED,
+    //   data: action.data.id
+    // });
+  });
+}
+
+const RootSaga = [watchFetchMenuRequested, watchSaveMenuRequested, watchCreateMenuRequested, watchCreateMenuSuccessed].map(item => fork(item));
 
 export default function* sagas() {
   yield [...RootSaga];

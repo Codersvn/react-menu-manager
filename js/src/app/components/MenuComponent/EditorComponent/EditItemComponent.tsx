@@ -11,9 +11,9 @@ class EditItemComponent extends React.Component {
   }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state, props) => {
   return {
-    payload: state.Menu.Editor
+    payload: state.Menu.items.find(i => Number(i.id) === Number(props.id))
   };
 };
 

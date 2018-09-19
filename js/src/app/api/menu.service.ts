@@ -12,7 +12,35 @@ export class MenuService extends BaseService {
     const headers = {
       ['Content-Type']: 'application/json'
     };
-    const api = axios.create({ baseURL, headers });
-    return this.api.post('api/admin/update/menus-item', params);
+    return new Promise((resolve, reject) => {
+      const api = axios.create({ baseURL, headers });
+      api
+        .post('api/admin/update/menus-item', params)
+        .then(response => {
+          resolve(new this.model(response.data));
+        })
+        .catch(error => {
+          reject(error);
+        });
+    });
+  }
+
+  createItem(menu_id, params) {
+    const baseURL = environment.apiUrl;
+    const headers = {
+      ['Content-Type']: 'application/json'
+    };
+
+    return new Promise((resolve, reject) => {
+      const api = axios.create({ baseURL, headers });
+      api
+        .post(`api/admin/menus/${menu_id}/items`, params)
+        .then(response => {
+          resolve(new this.model(response.data.data));
+        })
+        .catch(error => {
+          reject(error);
+        });
+    });
   }
 }
