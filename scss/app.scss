@@ -77,6 +77,7 @@
   .dd-handle {
     display: block;
     margin: 5px 0;
+    cursor: pointer;
     @extend %dragable;
     color: #333;
     text-decoration: none;
