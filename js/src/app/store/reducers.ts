@@ -1,25 +1,33 @@
 import { combineReducers } from 'redux';
 import { FETCH_MENU_SUCCESSED, SORT_MENU, SET_NEW_ITEM_FIELD, DELETE_MENU_ITEM, SHOW_EDIT_ITEM_FORM, CLOSE_EDIT_ITEM_FORM, EDIT_MENU_ITEM, UPDATE_MENU_ITEM } from './action';
 import * as _ from 'lodash/core';
-import * as assign from 'lodash/assign';
 
-const EditItem = (state: { items: any[] } = { items: [] }, action) => {
-  let f;
+// Edit Reducer
+const EditItem = (state: { menu_id?: number } = {}, action) => {
+  if (state.menu_id === action.menu_id) {
+    switch (action.type) {
+      case SHOW_EDIT_ITEM_FORM:
+        return { ...state, ...{ show_edit_form: true, data: action.data } };
+      case CLOSE_EDIT_ITEM_FORM:
+        return { ...state, ...{ show_edit_form: false, data: {} } };
+      default:
+        break;
+    }
+  } else {
+    return state;
+  }
+};
+
+const Edit = (state: { items: any[] } = { items: [] }, action) => {
   switch (action.type) {
+    case FETCH_MENU_SUCCESSED:
+      const find = _.find(state.items, item => item.menu_id === action.data.id);
+      if (_.isUndefined(find)) {
+        return { ...state, ...{ items: [...state.items, ...[{ menu_id: action.data.id, data: {} }]] } };
+      }
     case SHOW_EDIT_ITEM_FORM:
-      f = _.find(state.items, i => i.menu_id === action.menu_id);
-      if (_.isUndefined(f)) {
-        return { ...state, ...{ items: [...state.items, ...[{ show_edit_form: true, menu_id: action.menu_id, data: action.data }]] } };
-      } else {
-        return { ...state, ...{ items: _.map(state.items, i => (i.menu_id === action.menu_id ? { ...i, ...{ show_edit_form: true, data: action.data } } : i)) } };
-      }
     case CLOSE_EDIT_ITEM_FORM:
-      f = _.find(state.items, i => i.menu_id === action.menu_id);
-      if (_.isUndefined(f)) {
-        return { ...state, ...{ items: [...state.items, ...[{ show_edit_form: false }]] } };
-      } else {
-        return { ...state, ...{ items: _.map(state.items, i => (i.menu_id === action.menu_id ? { ...i, ...{ show_edit_form: false } } : i)) } };
-      }
+      return { ...state, ...{ items: _.map(state.items, item => EditItem(item, action)) } };
     case EDIT_MENU_ITEM:
       const item = { ...{}, ..._.find(state.items, i => i.menu_id === action.menu_id) };
       item.data = { ...item.data, ...{ [action.label]: action.data } };
@@ -29,28 +37,37 @@ const EditItem = (state: { items: any[] } = { items: [] }, action) => {
   }
 };
 
-const NewMenu = (state: { items?: any[] } = { items: [] }, action) => {
-  let f;
+// New Reducer
+
+const NewItem = (state: { menu_id?: number } = {}, action) => {
+  if (state.menu_id === action.menu_id) {
+    switch (action.type) {
+      case SET_NEW_ITEM_FIELD:
+        return { ...state, ...{ [action.field]: action.data } };
+      default:
+        break;
+    }
+  } else {
+    return state;
+  }
+};
+
+const New = (state: { items?: any[] } = { items: [] }, action) => {
   switch (action.type) {
     case FETCH_MENU_SUCCESSED:
-      f = _.find(state.items, i => i.menu_id === action.menu_id);
-      if (_.isUndefined(f)) {
-        state = { ...state, ...{ items: [...state.items, ...[{ menu_id: action.data.id }]] } };
+      const find = _.find(state.items, item => item.menu_id === action.data.id);
+      if (_.isUndefined(find)) {
+        return { ...state, ...{ items: [...state.items, ...[{ menu_id: action.data.id }]] } };
       }
       return state;
     case SET_NEW_ITEM_FIELD:
-      f = _.find(state.items, i => i.menu_id === action.menu_id);
-      if (_.isUndefined(f)) {
-        state = { ...state, ...{ items: [...state.items, ...[{ menu_id: action.menu_id, [action.field]: action.data }]] } };
-      } else {
-        state = { ...state, ...{ items: _.map(state.items, i => (i.menu_id === action.menu_id ? { ...i, ...{ [action.field]: action.data } } : i)) } };
-      }
-      return state;
+      return { ...state, ...{ items: _.map(state.items, item => NewItem(item, action)) } };
     default:
       return state;
   }
 };
 
+// Menu Reducer
 const Item = (state: { id: any; menus: any[]; show_edit_form: boolean }, action) => {
   if (state.id === action.menu_id) {
     switch (action.type) {
@@ -98,7 +115,7 @@ export const Menu = (state = { items: [] }, action) => {
 };
 
 export default combineReducers({
-  EditItem,
-  NewMenu,
+  Edit,
+  New,
   Menu
 });

@@ -31,7 +31,7 @@ class AddItemComponent extends React.Component {
 
 const mapStateToProps = (state, props) => {
   return {
-    payload: state.NewMenu.items.find(i => Number(i.menu_id) === Number(props.id))
+    payload: state.New.items.find(i => Number(i.menu_id) === Number(props.id))
   };
 };
 

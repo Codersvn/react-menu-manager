@@ -42,7 +42,7 @@ class EditFormComponent extends React.Component {
 
 const mapStateToProps = (state, props) => {
   return {
-    payload: state.EditItem.items.find(i => Number(i.menu_id) === Number(props.id))
+    payload: state.Edit.items.find(i => Number(i.menu_id) === Number(props.id))
   };
 };
 
