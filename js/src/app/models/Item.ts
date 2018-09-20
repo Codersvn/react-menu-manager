@@ -65,7 +65,7 @@ export class Item extends Model implements ItemInterface {
       html += '<ol class="dd-list">';
       _.forEach(this.menus, item => {
         html += `
-                  <li class="dd-item" data-menu-item-id="${item.id}" data-label="${item.label}" data-link="${item.link}" data-parent="${item.parent_id}">
+                  <li class="dd-item" data-id="${item.id}" data-label="${item.label}" data-link="${item.link}" data-parent="${item.parent_id}">
                       <div class="dd-handle">
                         <div class="row">
                           <div class="col">${item.label}</div>

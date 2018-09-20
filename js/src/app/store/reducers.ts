@@ -9,6 +9,7 @@ const EditItem = (state: { menu_id?: number } = {}, action) => {
       case SHOW_EDIT_ITEM_FORM:
         return { ...state, ...{ show_edit_form: true, data: action.data } };
       case CLOSE_EDIT_ITEM_FORM:
+      case UPDATE_MENU_ITEM:
         return { ...state, ...{ show_edit_form: false, data: {} } };
       default:
         break;
@@ -27,6 +28,7 @@ const Edit = (state: { items: any[] } = { items: [] }, action) => {
       }
     case SHOW_EDIT_ITEM_FORM:
     case CLOSE_EDIT_ITEM_FORM:
+    case UPDATE_MENU_ITEM:
       return { ...state, ...{ items: _.map(state.items, item => EditItem(item, action)) } };
     case EDIT_MENU_ITEM:
       const item = { ...{}, ..._.find(state.items, i => i.menu_id === action.menu_id) };

@@ -24,25 +24,36 @@ class EditorComponent extends React.Component {
     const nestable = new Nestable();
     nestable.init($(this.myRef.current).find('.dd')[0]);
 
-    $(this.myRef.current)
-      .find('.dd')
-      .on('change', function() {
-        const nestable = new Nestable();
-        const data = nestable.get(this, 'serialize');
-        let items = [];
-        _.forEach(payload.menus, menu => {
-          items = [...items, ...menu.flat()];
-        });
+    // $(this.myRef.current)
+    //   .find('.dd')
+    //   .on('change', function() {
+    // const nestable = new Nestable();
+    // const data = nestable.get(this, 'serialize');
+    // let items = [];
+    // _.forEach(payload.menus, menu => {
+    //   items = [...items, ...menu.flat()];
+    // });
 
-        let sorted_items = data.map(i => new SortedItem(i));
+    // let sorted_items = data.map(i => new SortedItem(i));
 
-        sorted_items = _.map(sorted_items, i => i.transform(items));
-        dispatch({ type: SORT_MENU, data: sorted_items, menu_id: payload.id });
-      });
+    // sorted_items = _.map(sorted_items, i => i.transform(items));
+    // dispatch({ type: SORT_MENU, data: sorted_items, menu_id: payload.id });
+    // });
   }
   save() {
     const { payload, dispatch } = this.props as any;
-    dispatch({ type: SAVE_MENU_REQUESTED, data: payload });
+    const nestable = new Nestable();
+    const data = nestable.get($(this.myRef.current).find('.dd')[0], 'serialize');
+    let items = [];
+    _.forEach(payload.menus, menu => {
+      items = [...items, ...menu.flat()];
+    });
+
+    let sorted_items = data.map(i => new SortedItem(i));
+
+    sorted_items = _.map(sorted_items, i => i.transform(items));
+    // dispatch({ type: SORT_MENU, data: sorted_items, menu_id: payload.id });
+    dispatch({ type: SAVE_MENU_REQUESTED, data: { ...payload, ...{ menus: sorted_items } } });
   }
 
   render() {

@@ -28,7 +28,7 @@ Array.prototype.forEach.call(els, el => {
     });
     $('.edit_menu_item.sub_item').on('click', function(event) {
       const el = $(event.target).closest('.dd-item');
-      const menu_item_id = el.attr('data-menu-item-id');
+      const menu_item_id = el.attr('data-id');
       const menus = store.getState().Menu.items;
       _.forEach(menus, i => {
         let items = [];
