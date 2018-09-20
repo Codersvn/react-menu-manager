@@ -3,12 +3,13 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import * as _ from 'lodash/core';
 import Nestable from '../../../../libs/Nestable/jquery.nestable';
-import EditItemComponent from './EditItemComponent';
+import EditItemButtonComponent from './EditItemButtonComponent';
 import { SortedItem } from '../../../models/SortedItem';
 import { SORT_MENU, SAVE_MENU_REQUESTED } from '../../../store/action';
 import AddItemComponent from './AddItemComponent';
 import * as Parser from 'html-react-parser';
 import DeleteItemComponent from './DeleteItemComponent';
+import EditFormComponent from './EditFormComponent';
 
 class EditorComponent extends React.Component {
   myRef: any;
@@ -61,7 +62,7 @@ class EditorComponent extends React.Component {
                 </div>
               </div>
               <DeleteItemComponent id={payload.id} menu_item_id={i.id} />
-              <EditItemComponent />
+              <EditItemButtonComponent id={payload.id} menu_item_id={i.id} />
               {Parser(i.render())}
             </li>
           );
@@ -77,7 +78,7 @@ class EditorComponent extends React.Component {
                 </div>
               </div>
               <DeleteItemComponent id={payload.id} menu_item_id={i.id} />
-              <EditItemComponent />
+              <EditItemButtonComponent id={payload.id} menu_item_id={i.id} />
             </li>
           );
         }
@@ -92,20 +93,7 @@ class EditorComponent extends React.Component {
             <div className="col">
               <div className="row">
                 <div className="col">
-                  <form name="edit_form">
-                    <div className="form-group">
-                      <input type="text" className="form-control" placeholder="Label" name="label" required />
-                    </div>
-                    <div className="form-group">
-                      <input type="link" className="form-control" placeholder="Link" name="link" required />
-                    </div>
-                    <div className="form-group">
-                      <input type="hidden" className="form-control" name="menu_item_id" required />
-                    </div>
-                    <button type="submit" className="btn btn-primary">
-                      Update
-                    </button>
-                  </form>
+                  <EditFormComponent id={payload.id} />
                 </div>
               </div>
               <div className="row">

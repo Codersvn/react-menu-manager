@@ -1,10 +1,16 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
+import { SHOW_EDIT_ITEM_FORM } from '../../../store/action';
 
-class EditItemComponent extends React.Component {
+class EditItemButtonComponent extends React.Component {
+  handleClick() {
+    const { dispatch, payload, id, menu_item_id } = this.props as any;
+    dispatch({ type: SHOW_EDIT_ITEM_FORM, data: payload.findItem(menu_item_id), menu_id: id });
+  }
+
   render() {
     return (
-      <div className="edit_item" data-label="${item.label}" data-link="${item.link}" data-item-id="${item.id}">
+      <div className="edit_menu_item" onClick={this.handleClick.bind(this)}>
         <div className="edit icon" />
       </div>
     );
@@ -26,4 +32,4 @@ const mapDispatchToProps = dispatch => {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(EditItemComponent);
+)(EditItemButtonComponent);

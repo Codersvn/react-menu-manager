@@ -18,9 +18,13 @@ module.exports = {
       {
         test: /\.ts$/,
         use: 'ts-loader',
-        exclude: /node_modules/
+        exclude: /node_modules|dist/
       },
-      { test: /\.tsx$/, loader: 'awesome-typescript-loader' },
+      {
+        test: /\.tsx$/,
+        loader: 'awesome-typescript-loader',
+        exclude: /node_modules|dist/
+      },
       {
         test: /\.css$/,
         use: extractPlugin.extract({
@@ -35,7 +39,7 @@ module.exports = {
       },
       {
         test: /\.html$/,
-        exclude: /node_modules/,
+        exclude: /node_modules|dist/,
         use: { loader: 'raw-loader' }
       },
       {

@@ -1,5 +1,6 @@
 import { Model } from './Model';
 import * as _ from 'lodash/core';
+import * as clone from 'lodash/clone';
 
 interface ItemInterface {
   menus: any;
@@ -20,6 +21,23 @@ export class Item extends Model implements ItemInterface {
     });
     this.menus = _.map(this.menus, item => item.deleteItem(id));
     return this;
+  }
+
+  updateMenuItem(id, data) {
+    let instance = clone(this);
+    const find = _.find(instance.menus, item => Number(item.id) === Number(id));
+    if (!_.isUndefined(find)) {
+      instance.menus = _.map(this.menus, item => {
+        if (Number(item.id) === Number(id)) {
+          item.label = data.label;
+          item.link = data.link;
+        }
+        return item;
+      });
+    } else {
+      instance.menus = _.map(this.menus, item => item.updateMenuItem(id, data));
+    }
+    return instance;
   }
 
   flat() {
@@ -47,7 +65,7 @@ export class Item extends Model implements ItemInterface {
       html += '<ol class="dd-list">';
       _.forEach(this.menus, item => {
         html += `
-                  <li class="dd-item" data-id="${item.id}" data-label="${item.label}" data-link="${item.link}" data-parent="${item.parent_id}">
+                  <li class="dd-item" data-menu-item-id="${item.id}" data-label="${item.label}" data-link="${item.link}" data-parent="${item.parent_id}">
                       <div class="dd-handle">
                         <div class="row">
                           <div class="col">${item.label}</div>
@@ -59,7 +77,7 @@ export class Item extends Model implements ItemInterface {
                       <div class="delete_menu_item_btn sub_item" data-id="${item.id}" data-click="deleteMenuItem">
                         <div class="trash icon"></div>
                       </div>
-                      <div class="edit_item" data-label="${item.label}" data-link="${item.link}" data-item-id="${item.id}"><div class="edit icon"></div></div>
+                      <div class="edit_menu_item sub_item" data-label="${item.label}" data-link="${item.link}" data-item-id="${item.id}"><div class="edit icon"></div></div>
                       ${item.render()}
                   </li>
                 `;

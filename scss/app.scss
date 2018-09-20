@@ -41,17 +41,21 @@
       }
     }
   }
-  form[name='edit_form'] {
-    max-height: 0px;
-    transition: all 0.5s;
-    transition-timing-function: ease-in-out;
-    overflow: hidden;
-    padding-bottom: 0px;
-    &.active {
-      padding-bottom: 20px;
-      max-height: 500px;
-    }
+  .edit-form-wrapper {
+    margin-top: 10px;
+    padding-right: 100px;
   }
+  // form[name='edit_form'] {
+  //   max-height: 0px;
+  //   transition: all 0.5s;
+  //   transition-timing-function: ease-in-out;
+  //   overflow: hidden;
+  //   padding-bottom: 0px;
+  //   &.active {
+  //     padding-bottom: 20px;
+  //     max-height: 500px;
+  //   }
+  // }
   .dd {
     position: relative;
     display: block;
@@ -90,6 +94,8 @@
     box-sizing: border-box;
     -moz-box-sizing: border-box;
     .text-right {
+      color: #999;
+      font-weight: lighter;
       text-align: right;
       padding-right: 90px;
     }
@@ -303,6 +309,8 @@
       border: 1px solid #ccc;
       background: #ddd;
       .text-right {
+        font-weight: light;
+        font-weight: lighter;
         text-align: right;
         padding-right: 90px;
       }
@@ -315,7 +323,7 @@
   .dd-item {
     position: relative;
     .delete_menu_item_btn,
-    .edit_item {
+    .edit_menu_item {
       position: absolute;
       width: 40px;
       top: 0px;
@@ -333,7 +341,7 @@
       right: 0px;
       background: #e74c3c;
     }
-    .edit_item {
+    .edit_menu_item {
       right: 40px;
       background: #3498db;
     }
