@@ -5,7 +5,7 @@ import * as ReactDOM from 'react-dom';
 import MenuComponent from './app/components/MenuComponent/MenuComponent';
 import * as _ from 'lodash/core';
 
-const els = document.getElementsByClassName('item');
+const els = document.getElementsByTagName('menu-editor');
 Array.prototype.forEach.call(els, el => {
   const attrs = {};
   for (var i = 0, atts = el.attributes, n = atts.length; i < n; i++) {
