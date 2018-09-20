@@ -4,7 +4,7 @@ import * as _ from 'lodash/core';
 
 // Edit Reducer
 const EditItem = (state: { menu_id?: number } = {}, action) => {
-  if (state.menu_id === action.menu_id) {
+  if (Number(state.menu_id) === Number(action.menu_id)) {
     switch (action.type) {
       case SHOW_EDIT_ITEM_FORM:
         return { ...state, ...{ show_edit_form: true, data: action.data } };

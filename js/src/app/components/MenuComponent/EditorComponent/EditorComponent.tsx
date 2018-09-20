@@ -5,7 +5,7 @@ import * as _ from 'lodash/core';
 import Nestable from '../../../../libs/Nestable/jquery.nestable';
 import EditItemButtonComponent from './EditItemButtonComponent';
 import { SortedItem } from '../../../models/SortedItem';
-import { SORT_MENU, SAVE_MENU_REQUESTED } from '../../../store/action';
+import { SORT_MENU, SAVE_MENU_REQUESTED, DELETE_MENU_ITEM, SHOW_EDIT_ITEM_FORM } from '../../../store/action';
 import AddItemComponent from './AddItemComponent';
 import * as Parser from 'html-react-parser';
 import DeleteItemComponent from './DeleteItemComponent';
@@ -57,7 +57,27 @@ class EditorComponent extends React.Component {
   }
 
   render() {
-    const { payload } = this.props as any;
+    const { payload, dispatch, id } = this.props as any;
+    setTimeout(() => {
+      $('.delete_menu_item_btn.sub_item').on('click', function(event) {
+        const el = $(event.target).closest('.dd-item');
+        el.remove();
+        dispatch({ type: DELETE_MENU_ITEM, data: el.attr('data-id') });
+      });
+      $('.edit_menu_item.sub_item').on('click', function(event) {
+        const el = $(event.target).closest('.dd-item');
+        const menu_item_id = el.attr('data-id');
+        let items = [];
+        _.forEach(payload.menus, menu => {
+          items = [...items, ...menu.flat()];
+        });
+        let find = _.find(items, item => Number(item.id) === Number(menu_item_id));
+        if (!_.isUndefined(find)) {
+          dispatch({ type: SHOW_EDIT_ITEM_FORM, data: find, menu_id: id });
+        }
+      });
+    }, 200);
+
     let Items;
     if (payload !== undefined && payload.id !== undefined && _.isArray(payload.menus)) {
       Items = payload.menus.map((i, k) => {
