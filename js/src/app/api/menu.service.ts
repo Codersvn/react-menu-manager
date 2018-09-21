@@ -15,7 +15,7 @@ export class MenuService extends BaseService {
     return new Promise((resolve, reject) => {
       const api = axios.create({ baseURL, headers });
       api
-        .post('api/admin/update/menus-item', params)
+        .post(`api/admin/menus/${params.menus.id}/save`, params)
         .then(response => {
           resolve(new this.model(response.data));
         })
