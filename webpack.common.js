@@ -29,13 +29,15 @@ module.exports = {
         test: /\.css$/,
         use: extractPlugin.extract({
           use: [`css-loader`]
-        })
+        }),
+        exclude: /node_modules|dist/
       },
       {
         test: /\.scss$/,
         use: extractPlugin.extract({
           use: [`css-loader`, `sass-loader`]
-        })
+        }),
+        exclude: /node_modules|dist/
       },
       {
         test: /\.html$/,
@@ -53,7 +55,8 @@ module.exports = {
               publicPath: ''
             }
           }
-        ]
+        ],
+        exclude: /node_modules|dist/
       },
       {
         test: /\.(ttf|eot|otf|woff|svg|woff2)$/,
