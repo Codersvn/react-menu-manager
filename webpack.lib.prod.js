@@ -1,0 +1,19 @@
+const merge = require('webpack-merge');
+const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
+const common = require('./webpack.lib.js');
+const webpack = require('webpack');
+
+module.exports = merge(common, {
+  plugins: [
+    new UglifyJSPlugin({
+      uglifyOptions: {
+        output: {
+          comments: false
+        }
+      }
+    }),
+    new webpack.NormalModuleReplacementPlugin(/environment\.ts/, './environment.prod.ts'),
+    new webpack.NormalModuleReplacementPlugin(/store\/index\.ts/, './index.prod.ts'),
+    new webpack.NormalModuleReplacementPlugin(/_font\.scss/, './_font_prod.scss')
+  ]
+});

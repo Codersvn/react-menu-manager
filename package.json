@@ -1,12 +1,15 @@
 {
   "name": "@vicoders/react-menu-manager",
   "main": "./lib/@vicoders/react-menu-manager.js",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "private": true,
   "scripts": {
     "build": "./node_modules/.bin/webpack --mode=development --config webpack.dev.js",
     "watch": "./node_modules/.bin/webpack --watch --mode=development --config webpack.dev.js",
-    "prod": "NODE_ENV=production ./node_modules/.bin/webpack --mode=production --config=webpack.prod.js"
+    "build_lib": "./node_modules/.bin/webpack --mode=development --config webpack.lib.js",
+    "build_lib_prod": "./node_modules/.bin/webpack --mode=production --config webpack.lib.prod.js",
+    "build_prod": "./node_modules/.bin/webpack --mode=production --config=webpack.prod.js",
+    "publish_module": "npm run build_prod && npm run build_lib_prod && npx @codersvn/npm-auto-version && npm publish --access public && rm -rf dist"
   },
   "dependencies": {
     "@codersvn/model": "^1.3.1",

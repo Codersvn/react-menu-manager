@@ -36,30 +36,30 @@ const config = {
       {
         test: /\.ts$/,
         use: 'ts-loader',
-        exclude: /node_modules|dist/
+        exclude: /node_modules|dist|lib/
       },
       {
         test: /\.tsx$/,
         loader: 'awesome-typescript-loader',
-        exclude: /node_modules|dist/
+        exclude: /node_modules|dist|lib/
       },
       {
         test: /\.css$/,
         use: extractPlugin.extract({
           use: [`css-loader`]
         }),
-        exclude: /node_modules|dist/
+        exclude: /node_modules|dist|lib/
       },
       {
         test: /\.scss$/,
         use: extractPlugin.extract({
           use: [`css-loader`, `sass-loader`]
         }),
-        exclude: /node_modules|dist/
+        exclude: /node_modules|dist|lib/
       },
       {
         test: /\.html$/,
-        exclude: /node_modules|dist/,
+        exclude: /node_modules|dist|lib/,
         use: { loader: 'raw-loader' }
       },
       {
@@ -74,7 +74,7 @@ const config = {
             }
           }
         ],
-        exclude: /node_modules|dist/
+        exclude: /node_modules|dist|lib/
       },
       {
         test: /\.(ttf|eot|otf|woff|svg|woff2)$/,
