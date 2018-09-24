@@ -1,7 +1,7 @@
 {
   "name": "@vicoders/react-menu-manager",
   "main": "./lib/@vicoders/react-menu-manager.js",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "private": true,
   "scripts": {
     "build": "./node_modules/.bin/webpack --mode=development --config webpack.dev.js",
