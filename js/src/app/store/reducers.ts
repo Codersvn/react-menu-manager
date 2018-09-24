@@ -1,5 +1,15 @@
 import { combineReducers } from 'redux';
-import { FETCH_MENU_SUCCESSED, SORT_MENU, SET_NEW_ITEM_FIELD, DELETE_MENU_ITEM, SHOW_EDIT_ITEM_FORM, CLOSE_EDIT_ITEM_FORM, EDIT_MENU_ITEM, UPDATE_MENU_ITEM } from './action';
+import {
+  SET_BASE_API_URL,
+  FETCH_MENU_SUCCESSED,
+  SORT_MENU,
+  SET_NEW_ITEM_FIELD,
+  DELETE_MENU_ITEM,
+  SHOW_EDIT_ITEM_FORM,
+  CLOSE_EDIT_ITEM_FORM,
+  EDIT_MENU_ITEM,
+  UPDATE_MENU_ITEM
+} from './action';
 import * as _ from 'lodash/core';
 
 // Edit Reducer
@@ -116,7 +126,17 @@ export const Menu = (state = { items: [] }, action) => {
   }
 };
 
+export const App = (state = {}, action) => {
+  switch (action.type) {
+    case SET_BASE_API_URL:
+      return { ...state, ...{ api_url: action.data } };
+    default:
+      return state;
+  }
+};
+
 export default combineReducers({
+  App,
   Edit,
   New,
   Menu

@@ -7,7 +7,7 @@ interface ServiceInterface {
 }
 
 interface OptionInterface {
-  baseURL?: string;
+  api_url?: string;
   headers?: object;
 }
 
@@ -17,7 +17,7 @@ export class BaseService implements ServiceInterface {
   public api: any;
   constructor(options?: OptionInterface) {
     options = options || {};
-    const baseURL = options.baseURL || environment.apiUrl;
+    const baseURL = options.api_url || environment.apiUrl;
     const headers = options.headers || {
       ['Content-Type']: 'application/json'
     };

@@ -5,7 +5,7 @@ import * as _ from 'lodash/core';
 import Nestable from '../../../../libs/Nestable/jquery.nestable';
 import EditItemButtonComponent from './EditItemButtonComponent';
 import { SortedItem } from '../../../models/SortedItem';
-import { SORT_MENU, SAVE_MENU_REQUESTED, DELETE_MENU_ITEM, SHOW_EDIT_ITEM_FORM } from '../../../store/action';
+import { SAVE_MENU_REQUESTED, DELETE_MENU_ITEM, SHOW_EDIT_ITEM_FORM } from '../../../store/action';
 import AddItemComponent from './AddItemComponent';
 import * as Parser from 'html-react-parser';
 import DeleteItemComponent from './DeleteItemComponent';
@@ -19,26 +19,8 @@ class EditorComponent extends React.Component {
   }
 
   componentDidUpdate() {
-    const { payload, dispatch } = this.props as any;
-
     const nestable = new Nestable();
     nestable.init($(this.myRef.current).find('.dd')[0]);
-
-    // $(this.myRef.current)
-    //   .find('.dd')
-    //   .on('change', function() {
-    // const nestable = new Nestable();
-    // const data = nestable.get(this, 'serialize');
-    // let items = [];
-    // _.forEach(payload.menus, menu => {
-    //   items = [...items, ...menu.flat()];
-    // });
-
-    // let sorted_items = data.map(i => new SortedItem(i));
-
-    // sorted_items = _.map(sorted_items, i => i.transform(items));
-    // dispatch({ type: SORT_MENU, data: sorted_items, menu_id: payload.id });
-    // });
   }
   save() {
     const { payload, dispatch } = this.props as any;
@@ -52,7 +34,6 @@ class EditorComponent extends React.Component {
     let sorted_items = data.map(i => new SortedItem(i));
 
     sorted_items = _.map(sorted_items, i => i.transform(items));
-    // dispatch({ type: SORT_MENU, data: sorted_items, menu_id: payload.id });
     dispatch({ type: SAVE_MENU_REQUESTED, data: { ...payload, ...{ menus: sorted_items } } });
   }
 

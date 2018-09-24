@@ -6,9 +6,15 @@ import { environment } from '../../environments/environment';
 export class MenuService extends BaseService {
   public url = '/api/admin/menus';
   public model = Menu;
+  options: any;
+
+  constructor(options?: {}) {
+    super(options);
+    this.options = options;
+  }
 
   save(params) {
-    const baseURL = environment.apiUrl;
+    const baseURL = this.options.api_url || environment.apiUrl;
     const headers = {
       ['Content-Type']: 'application/json'
     };
@@ -26,7 +32,7 @@ export class MenuService extends BaseService {
   }
 
   createItem(menu_id, params) {
-    const baseURL = environment.apiUrl;
+    const baseURL = this.options.api_url || environment.apiUrl;
     const headers = {
       ['Content-Type']: 'application/json'
     };

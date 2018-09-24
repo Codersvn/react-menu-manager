@@ -54,10 +54,6 @@ function* watchCreateMenuRequested() {
 function* watchCreateMenuSuccessed() {
   yield takeEvery(CREATE_MENU_ITEM_SUCCESSED, function*(action: any) {
     document.location.reload();
-    // yield put({
-    //   type: FETCH_MENU_REQUESTED,
-    //   data: action.data.id
-    // });
   });
 }
 

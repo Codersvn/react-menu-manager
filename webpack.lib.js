@@ -1,18 +1,36 @@
-const path = require('path');
 const webpack = require('webpack');
-var ExtractTextPlugin = require('extract-text-webpack-plugin');
-var CleanWebpackPlugin = require('clean-webpack-plugin');
-const CopyWebpackPlugin = require('copy-webpack-plugin');
+const path = require('path');
+const env = require('yargs').argv.env;
+const pkg = require('./package.json');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
-var extractPlugin = new ExtractTextPlugin({
+const extractPlugin = new ExtractTextPlugin({
   filename: 'app.css'
 });
 
-if (process.env.NODE_ENV === 'production') {
+let libraryName = pkg.name;
+
+let outputFile, mode;
+
+if (env === 'build') {
+  mode = 'production';
+  outputFile = libraryName + '.min.js';
+} else {
+  mode = 'development';
+  outputFile = libraryName + '.js';
 }
 
-module.exports = {
-  entry: { app: ['./js/src/app/app.tsx', './scss/app.scss'] },
+const config = {
+  mode: mode,
+  entry: __dirname + '/js/src/main.ts',
+  devtool: 'source-map',
+  output: {
+    path: __dirname + '/lib',
+    filename: outputFile,
+    library: libraryName,
+    libraryTarget: 'umd',
+    umdNamedDefine: true
+  },
   module: {
     rules: [
       {
@@ -74,11 +92,9 @@ module.exports = {
     ]
   },
   resolve: {
-    extensions: ['.tsx', '.ts', '.js']
-  },
-  output: {
-    filename: 'app.js',
-    path: path.resolve(__dirname, 'dist')
-  },
-  plugins: [new webpack.ProvidePlugin({}), extractPlugin, new CopyWebpackPlugin([{ from: './assets', to: './assets' }]), new CleanWebpackPlugin(['dist'])]
+    modules: [path.resolve('./node_modules'), path.resolve('./src')],
+    extensions: ['.json', '.js', '.tsx', '.ts']
+  }
 };
+
+module.exports = config;

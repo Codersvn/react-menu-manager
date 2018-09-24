@@ -1,3 +1,4 @@
+export const SET_BASE_API_URL = 'SET_BASE_API_URL';
 export const API_CALL_ERROR = 'API_CALL_ERROR';
 export const SET_MENU_ID = 'SET_MENU_ID';
 export const FETCH_MENU_REQUESTED = 'FETCH_MENU_REQUESTED';
